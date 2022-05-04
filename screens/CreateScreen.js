@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Text } from 'react-native';
+import { createTimeBar } from '../resources/storageFunctions';
 
-const CreateScreen = ({ navigation }) => {
+const CreateScreen = ({ timeBars, setTimeBars, navigation }) => {
 
     const [title, setTitle] = useState('');
 
@@ -10,11 +11,16 @@ const CreateScreen = ({ navigation }) => {
             <TextInput
                 style={styles.textInput}
                 value={title}
-                onChangText={input => setTitle(input)}
+                onChangeText={input => setTitle(input)}
             />
             <TouchableOpacity
                 style={styles.createBtn}
-                onPress={() => console.log('Working')}
+                onPress={() => {
+                    const newTimeBar = {
+                        title
+                    }
+                    createTimeBar(timeBars, setTimeBars, newTimeBar)
+                }}
             >
                 <Text>
                     Create Time Bar
