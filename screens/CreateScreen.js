@@ -78,7 +78,10 @@ const CreateScreen = ({ timeBars, setTimeBars, navigation }) => {
                         style={styles.createBtn}
                         onPress={() => {
                             const newTimeBar = {
-                                title
+                                title,
+                                hours,
+                                minutes,
+                                repeatDay
                             }
                             createTimeBar(timeBars, setTimeBars, newTimeBar)
                         }}

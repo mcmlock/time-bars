@@ -7,6 +7,7 @@ export async function getData(setTimeBars) {
             timeBars = JSON.parse(timeBars);
             setTimeBars(timeBars);
         }
+        console.log(timeBars);
     } catch (err) {
         console.log(err);
     }
