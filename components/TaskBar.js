@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const TaskBar = () => {
+const TaskBar = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <FontAwesomeIcon 
@@ -10,6 +10,7 @@ const TaskBar = () => {
                 size={40} 
                 style={styles.icon}
                 color='black' 
+                onPress={() => navigation.navigate('Create')}
             />
         </View>
     )

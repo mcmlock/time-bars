@@ -1,10 +1,10 @@
 import { SafeAreaView, StyleSheet } from "react-native";
 import TaskBar from "../components/TaskBar";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
-            <TaskBar />
+            <TaskBar navigation={navigation} />
         </SafeAreaView>
     );
 }
