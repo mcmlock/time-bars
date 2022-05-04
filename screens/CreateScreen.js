@@ -1,40 +1,95 @@
 import { useState } from 'react';
-import { StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Text } from 'react-native';
+import {
+    StyleSheet,
+    SafeAreaView,
+    TextInput,
+    TouchableOpacity,
+    View,
+    Text,
+    TouchableWithoutFeedback,
+    Keyboard
+} from 'react-native';
+import DayPicker from '../components/DayPicker';
 import { createTimeBar } from '../resources/storageFunctions';
+
+const DayBtn = ({ dayText, dayValue, repeatDay, setRepeatDay }) => {
+    return (
+        <TouchableOpacity
+            style={repeatDay === dayValue ? styles.dayBtnSelected : styles.dayBtn}
+            onPress={() => setRepeatDay(dayValue)}
+        >
+            <Text>{dayText}</Text>
+        </TouchableOpacity >
+    );
+}
 
 const CreateScreen = ({ timeBars, setTimeBars, navigation }) => {
 
     const [title, setTitle] = useState('');
+    const [hours, setHours] = useState('');
+    const [minutes, setMinutes] = useState('');
+    const [repeatDay, setRepeatDay] = useState(7);
 
     return (
-        <SafeAreaView style={styles.container}>
-            <TextInput
-                style={styles.textInput}
-                value={title}
-                onChangeText={input => setTitle(input)}
-            />
-            <TouchableOpacity
-                style={styles.createBtn}
-                onPress={() => {
-                    const newTimeBar = {
-                        title
-                    }
-                    createTimeBar(timeBars, setTimeBars, newTimeBar)
-                }}
-            >
-                <Text>
-                    Create Time Bar
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.createBtn}
-                onPress={() => navigation.navigate('Home')}
-            >
-                <Text>
-                    Back
-                </Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <SafeAreaView style={styles.container}>
+                <TextInput
+                    style={styles.titleTextInput}
+                    value={title}
+                    placeholder='Title'
+                    onChangeText={input => setTitle(input)}
+                />
+                <View>
+                    <Text style={styles.text}>Weekly Goal</Text>
+                    <View style={styles.timeSetter}>
+                        <TextInput
+                            style={styles.timeTextInput}
+                            value={hours}
+                            placeholder='HH'
+                            keyboardType='number-pad'
+                            maxLength={2}
+                            onChangeText={input => setHours(input)}
+                        />
+                        <Text style={styles.text}>:</Text>
+                        <TextInput
+                            style={styles.timeTextInput}
+                            value={minutes}
+                            placeholder='MM'
+                            keyboardType='number-pad'
+                            maxLength={2}
+                            onChangeText={input => setMinutes(input)}
+                        />
+                    </View>
+                </View>
+                <View>
+                    <Text style={styles.text}>on</Text>
+                    <DayPicker repeatDay={repeatDay} setRepeatDay={setRepeatDay} />
+                </View>
+                <View style={styles.bottomBtnsRow}>
+                    <TouchableOpacity
+                        style={styles.createBtn}
+                        onPress={() => navigation.navigate('Home')}
+                    >
+                        <Text>
+                            Back
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.createBtn}
+                        onPress={() => {
+                            const newTimeBar = {
+                                title
+                            }
+                            createTimeBar(timeBars, setTimeBars, newTimeBar)
+                        }}
+                    >
+                        <Text>
+                            Create
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -44,14 +99,45 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
-        justifyContent: 'center',
         alignItems: 'center',
     },
-    textInput: {
+    titleTextInput: {
+        height: 40,
         width: '90%',
+        marginTop: 50,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        fontSize: 20,
+        textAlign: 'center',
         backgroundColor: 'white',
         borderWidth: 1,
-        borderColor: 'black'
+        borderColor: 'black',
+    },
+    text: {
+        fontSize: 20,
+        marginVertical: 5,
+        textAlign: 'center'
+    },
+    timeSetter: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    timeTextInput: {
+        marginHorizontal: 10,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        fontSize: 20,
+        textAlign: 'center',
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: 'black',
+    },
+    bottomBtnsRow: {
+        width: '90%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     createBtn: {
         marginTop: 20,
