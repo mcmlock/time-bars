@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import {
     StyleSheet,
@@ -10,7 +11,7 @@ import {
     Keyboard
 } from 'react-native';
 import DayPicker from '../components/DayPicker';
-import { createTimeBar, getData, setOrder } from '../resources/storageFunctions';
+import { createTimeBar, getData } from '../resources/storageFunctions';
 
 const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) => {
 
@@ -74,7 +75,7 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                                 key: timeBars.length
                             }
                             createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
-                            getData(setTimeBars);
+                            getData(setTimeBars, setOrder);
                             navigation.navigate('Home');
                         }}
                     >
