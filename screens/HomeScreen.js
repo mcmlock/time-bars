@@ -13,10 +13,10 @@ const window = Dimensions.get('window');
 
 
 
-const HomeScreen = ({ navigation, timeBarsProps }) => {
+const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar }) => {
 
     const renderTimeBar = useCallback(({ data, active }) => {
-        return <TimeBar data={data} active={active} />;
+        return <TimeBar data={data} active={active} selectTimeBar={selectTimeBar} navigation={navigation} />;
     }, []); 
 
     const [timeBars, setTimeBars] = useState({});

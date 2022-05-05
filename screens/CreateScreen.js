@@ -56,7 +56,7 @@ const CreateScreen = ({ timeBars, setTimeBars, navigation }) => {
                 </View>
                 <View style={styles.bottomBtnsRow}>
                     <TouchableOpacity
-                        style={styles.createBtn}
+                        style={styles.backBtn}
                         onPress={() => navigation.navigate('Home')}
                     >
                         <Text>

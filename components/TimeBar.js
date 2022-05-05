@@ -1,11 +1,11 @@
 import { useMemo, useRef, useEffect } from "react";
-import { StyleSheet, Animated, Text, Easing, Platform, Dimensions } from 'react-native';
+import { StyleSheet, Animated, Text, Easing, Platform, Dimensions, TouchableOpacity } from 'react-native';
 
 const window = Dimensions.get('window');
 
 const TimeBar = props => {
 
-    const { data, active } = props;
+    const { data, active, selectTimeBar, navigation } = props;
 
     const activeAnim = useRef(new Animated.Value(0));
     const style = useMemo(
@@ -56,7 +56,14 @@ const TimeBar = props => {
     return (
         <Animated.View style={[styles.row, style]}>
             <Text style={styles.text}>{data.title}</Text>
+            <TouchableOpacity onPress={() => {
+                selectTimeBar(data);
+                navigation.navigate('View');
+            }}>
+                <Text>Select</Text>
+            </TouchableOpacity>
         </Animated.View>
+
     );
 }
 
@@ -64,32 +71,33 @@ export default TimeBar;
 
 const styles = StyleSheet.create({
     row: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#fff',
-      padding: 16,
-      height: 80,
-      flex: 1,
-      marginTop: 7,
-      marginBottom: 12,
-      borderRadius: 4,
-      ...Platform.select({
-        ios: {
-          width: window.width - 30 * 2,
-          shadowColor: 'rgba(0,0,0,0.2)',
-          shadowOpacity: 1,
-          shadowOffset: {height: 2, width: 2},
-          shadowRadius: 2,
-        },
-        android: {
-          width: window.width - 30 * 2,
-          elevation: 0,
-          marginHorizontal: 30,
-        },
-      }),
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 16,
+        height: 80,
+        flex: 1,
+        marginTop: 7,
+        marginBottom: 12,
+        borderRadius: 4,
+        ...Platform.select({
+            ios: {
+                width: window.width - 30 * 2,
+                shadowColor: 'rgba(0,0,0,0.2)',
+                shadowOpacity: 1,
+                shadowOffset: { height: 2, width: 2 },
+                shadowRadius: 2,
+            },
+            android: {
+                width: window.width - 30 * 2,
+                elevation: 0,
+                marginHorizontal: 30,
+            },
+        }),
     },
     text: {
-      fontSize: 24,
-      color: '#222222',
+        fontSize: 24,
+        color: '#222222',
     },
-  });
+});
