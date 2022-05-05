@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const TaskBar = ({ navigation }) => {
+const BottomBar = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <FontAwesomeIcon 
@@ -16,17 +16,16 @@ const TaskBar = ({ navigation }) => {
     )
 }
 
-export default TaskBar;
+export default BottomBar;
 
 const styles = StyleSheet.create({
     container: {
         width: '100%',
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'flex-end'
+        justifyContent: 'center'
     },
     icon: {
-        marginTop: 10,
-        marginRight: 10
+        marginBottom: 10,
     }
 })
