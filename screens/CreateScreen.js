@@ -10,18 +10,7 @@ import {
     Keyboard
 } from 'react-native';
 import DayPicker from '../components/DayPicker';
-import { createTimeBar } from '../resources/storageFunctions';
-
-const DayBtn = ({ dayText, dayValue, repeatDay, setRepeatDay }) => {
-    return (
-        <TouchableOpacity
-            style={repeatDay === dayValue ? styles.dayBtnSelected : styles.dayBtn}
-            onPress={() => setRepeatDay(dayValue)}
-        >
-            <Text>{dayText}</Text>
-        </TouchableOpacity >
-    );
-}
+import { createTimeBar, getData } from '../resources/storageFunctions';
 
 const CreateScreen = ({ timeBars, setTimeBars, navigation }) => {
 
@@ -83,7 +72,9 @@ const CreateScreen = ({ timeBars, setTimeBars, navigation }) => {
                                 minutes,
                                 repeatDay
                             }
-                            createTimeBar(timeBars, setTimeBars, newTimeBar)
+                            createTimeBar(timeBars, setTimeBars, newTimeBar);
+                            getData(setTimeBars);
+                            navigation.navigate('Home');
                         }}
                     >
                         <Text>

@@ -21,7 +21,7 @@ export default TaskBar;
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        flex: 1,
+        display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-end'
     },

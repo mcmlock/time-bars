@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getData } from './resources/storageFunctions';
 import HomeScreen from './screens/HomeScreen';
 import CreateScreen from './screens/CreateScreen';
@@ -21,12 +20,13 @@ export default function App() {
       <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen
           name='Home'
-          component={HomeScreen}
           options={{ headerShown: false }}
-        />
+        >
+          {props => <HomeScreen {...props} timeBarsProps={timeBars} />}
+        </Stack.Screen>
         <Stack.Screen
           name='Create'
-          options={{ headerShown: false }}
+          options={{ headerShown: false }} 
         >
           {props => <CreateScreen {...props} timeBars={timeBars} setTimeBars={setTimeBars} />}
         </Stack.Screen>
@@ -34,4 +34,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
