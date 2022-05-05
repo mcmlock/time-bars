@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -11,6 +12,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 
   const [timeBars, setTimeBars] = useState([]);
+  const [order, setOrder] = useState([]);
   const [selectedTimeBar, setSelectedTimeBar] = useState();
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export default function App() {
               {...props}
               timeBarsProps={timeBars}
               selectTimeBar={setSelectedTimeBar}
+              setOrder={setOrder}
             />}
         </Stack.Screen>
         <Stack.Screen
@@ -40,6 +43,8 @@ export default function App() {
               {...props}
               timeBars={timeBars}
               setTimeBars={setTimeBars}
+              order={order}
+              setOrder={setOrder}
             />}
         </Stack.Screen>
         <Stack.Screen

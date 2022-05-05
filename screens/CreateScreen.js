@@ -10,9 +10,9 @@ import {
     Keyboard
 } from 'react-native';
 import DayPicker from '../components/DayPicker';
-import { createTimeBar, getData } from '../resources/storageFunctions';
+import { createTimeBar, getData, setOrder } from '../resources/storageFunctions';
 
-const CreateScreen = ({ timeBars, setTimeBars, navigation }) => {
+const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) => {
 
     const [title, setTitle] = useState('');
     const [hours, setHours] = useState('');
@@ -70,9 +70,10 @@ const CreateScreen = ({ timeBars, setTimeBars, navigation }) => {
                                 title,
                                 hours,
                                 minutes,
-                                repeatDay
+                                repeatDay,
+                                key: timeBars.length
                             }
-                            createTimeBar(timeBars, setTimeBars, newTimeBar);
+                            createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
                             getData(setTimeBars);
                             navigation.navigate('Home');
                         }}

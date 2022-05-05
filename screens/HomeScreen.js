@@ -8,12 +8,11 @@ import {
 import TaskBar from "../components/TaskBar";
 import SortableList from 'react-native-sortable-list';
 import TimeBar from "../components/TimeBar";
+import { saveNewOrder } from "../resources/storageFunctions";
 
 const window = Dimensions.get('window');
 
-
-
-const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar }) => {
+const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar, setOrder }) => {
 
     const renderTimeBar = useCallback(({ data, active }) => {
         return <TimeBar data={data} active={active} selectTimeBar={selectTimeBar} navigation={navigation} />;
@@ -33,6 +32,7 @@ const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar }) => {
                 renderRow={renderTimeBar}
                 style={styles.list}
                 contentContainerStyle={styles.contentContainer}
+                onChangeOrder={newOrder => saveNewOrder(newOrder, setOrder)}
             />
         </SafeAreaView>
     );

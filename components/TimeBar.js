@@ -1,5 +1,5 @@
 import { useMemo, useRef, useEffect } from "react";
-import { StyleSheet, Animated, Text, Easing, Platform, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Animated, Text, Easing, Platform, Dimensions, TouchableOpacity, View } from 'react-native';
 
 const window = Dimensions.get('window');
 
@@ -53,18 +53,21 @@ const TimeBar = props => {
         }).start();
     }, [active]);
 
-    return (
-        <Animated.View style={[styles.row, style]}>
-            <Text style={styles.text}>{data.title}</Text>
-            <TouchableOpacity onPress={() => {
-                selectTimeBar(data);
-                navigation.navigate('View');
-            }}>
-                <Text>Select</Text>
-            </TouchableOpacity>
-        </Animated.View>
-
-    );
+    if (data) {
+        return (
+            <Animated.View style={[styles.row, style]}>
+                <Text style={styles.text}>{data.title}</Text>
+                <TouchableOpacity onPress={() => {
+                    selectTimeBar(data);
+                    navigation.navigate('View');
+                }}>
+                    <Text>Select</Text>
+                </TouchableOpacity>
+            </Animated.View>
+    
+        );
+    }
+    return <View />
 }
 
 export default TimeBar;
