@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import {
     StyleSheet,
@@ -16,8 +15,8 @@ import { createTimeBar, getData } from '../resources/storageFunctions';
 const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) => {
 
     const [title, setTitle] = useState('');
-    const [hours, setHours] = useState('');
-    const [minutes, setMinutes] = useState('');
+    const [goalHours, setGoalHours] = useState('');
+    const [goalMinutes, setGoalMinutes] = useState('');
     const [repeatDay, setRepeatDay] = useState(7);
 
     return (
@@ -34,20 +33,20 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                     <View style={styles.timeSetter}>
                         <TextInput
                             style={styles.timeTextInput}
-                            value={hours}
+                            value={goalHours}
                             placeholder='HH'
                             keyboardType='number-pad'
                             maxLength={2}
-                            onChangeText={input => setHours(input)}
+                            onChangeText={input => setGoalHours(input)}
                         />
                         <Text style={styles.text}>:</Text>
                         <TextInput
                             style={styles.timeTextInput}
-                            value={minutes}
+                            value={goalMinutes}
                             placeholder='MM'
                             keyboardType='number-pad'
                             maxLength={2}
-                            onChangeText={input => setMinutes(input)}
+                            onChangeText={input => setGoalMinutes(input)}
                         />
                     </View>
                 </View>
@@ -69,9 +68,11 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                         onPress={() => {
                             const newTimeBar = {
                                 title,
-                                hours,
-                                minutes,
+                                goalHours,
+                                goalMinutes,
                                 repeatDay,
+                                completedHours: 0,
+                                completedMinutes: 0,
                                 key: timeBars.length
                             }
                             createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);

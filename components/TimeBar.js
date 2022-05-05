@@ -1,5 +1,7 @@
 import { useMemo, useRef, useEffect } from "react";
 import { StyleSheet, Animated, Text, Easing, Platform, Dimensions, TouchableOpacity, View } from 'react-native';
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlus, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const window = Dimensions.get('window');
 
@@ -56,15 +58,29 @@ const TimeBar = props => {
     if (data) {
         return (
             <Animated.View style={[styles.row, style]}>
-                <Text style={styles.text}>{data.title}</Text>
-                <TouchableOpacity onPress={() => {
-                    selectTimeBar(data);
-                    navigation.navigate('View');
-                }}>
-                    <Text>Select</Text>
-                </TouchableOpacity>
+                <View style={styles.leftSide}>
+                    <Text style={styles.text}>{data.title}</Text>
+                    <View style={styles.progressBar}>
+
+                    </View>
+                </View>
+                <View style={styles.rightSide}>
+                    <TouchableOpacity
+                        style={styles.btn}
+                    >
+                        <FontAwesomeIcon icon={faPlus} size={24} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.btn}
+                        onPress={() => {
+                            selectTimeBar(data);
+                            navigation.navigate('View');
+                        }}>
+                        <FontAwesomeIcon size={24} icon={faChevronRight} />
+                    </TouchableOpacity>
+                </View>
             </Animated.View>
-    
+
         );
     }
     return <View />
@@ -99,8 +115,33 @@ const styles = StyleSheet.create({
             },
         }),
     },
+    leftSide: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: '70%',
+    },
+    rightSide: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        width: '30%'
+    },
     text: {
         fontSize: 24,
         color: '#222222',
+    },
+    progressBar: {
+        width: '100%',
+        height: 20,
+        borderWidth: 1,
+
+    },
+    btn: {
+        height: 30,
+        width: 30,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 });
