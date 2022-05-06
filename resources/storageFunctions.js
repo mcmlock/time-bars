@@ -1,3 +1,4 @@
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function getData(setTimeBars, setOrder) {
@@ -36,11 +37,10 @@ export async function createTimeBar(timeBars, setTimeBars, newTimeBar, order, se
     }
 }
 
-export async function saveNewOrder(order, setOrder) {
+export async function saveNewOrder(newOrder) {
     try {
-        const jsonOrder = JSON.stringify(order);
+        const jsonOrder = JSON.stringify(newOrder);
         await AsyncStorage.setItem('order', jsonOrder);
-        setOrder(order);
     } catch (err) {
         console.log(err);
     }

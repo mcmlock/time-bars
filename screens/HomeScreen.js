@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect, useState } from "react";
 import {
   SafeAreaView,
@@ -9,7 +8,7 @@ import {
 import SortableList from 'react-native-sortable-list';
 import TimeBar from "../components/TimeBar";
 import BottomBar from "../components/BottomBar";
-import { saveNewOrder } from "../resources/storageFunctions";
+import { getData, saveNewOrder } from "../resources/storageFunctions";
 
 const window = Dimensions.get('window');
 
@@ -22,8 +21,10 @@ const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar, order, setOrder 
   const [timeBars, setTimeBars] = useState({});
 
   useEffect(() => {
+    // Making the home page contact log the time bars it receives from App.js, THEN setting them for some reason fixes a bug where the timebars appear stacked on one another
+    console.log(timeBarsProps);
     setTimeBars(timeBarsProps);
-  })
+  }); 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +34,10 @@ const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar, order, setOrder 
         style={styles.list}
         contentContainerStyle={styles.contentContainer}
         order={order}
-        onChangeOrder={newOrder => setOrder(newOrder)}
+        onChangeOrder={newOrder => {
+          saveNewOrder(newOrder);
+          setOrder(newOrder)
+        }}
       />
       <BottomBar navigation={navigation} />
     </SafeAreaView>
