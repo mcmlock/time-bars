@@ -13,7 +13,7 @@ import { saveNewOrder } from "../resources/storageFunctions";
 
 const window = Dimensions.get('window');
 
-const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar, setOrder }) => {
+const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar, order, setOrder }) => {
 
   const renderTimeBar = useCallback(({ data, active }) => {
     return <TimeBar data={data} active={active} selectTimeBar={selectTimeBar} navigation={navigation} />;
@@ -32,7 +32,8 @@ const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar, setOrder }) => {
         renderRow={renderTimeBar}
         style={styles.list}
         contentContainerStyle={styles.contentContainer}
-        onChangeOrder={newOrder => saveNewOrder(newOrder, setOrder)}
+        order={order}
+        onChangeOrder={newOrder => setOrder(newOrder)}
       />
       <BottomBar navigation={navigation} />
     </SafeAreaView>

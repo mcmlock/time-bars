@@ -32,6 +32,7 @@ export default function App() {
               {...props}
               timeBarsProps={timeBars}
               selectTimeBar={setSelectedTimeBar}
+              order={order}
               setOrder={setOrder}
             />}
         </Stack.Screen>

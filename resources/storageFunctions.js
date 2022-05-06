@@ -7,32 +7,8 @@ export async function getData(setTimeBars, setOrder) {
         if (timeBars && order) {
             timeBars = JSON.parse(timeBars);
             order = JSON.parse(order);
-            const orderedTimeBars = [];
-            for (let i = 0; i < order.length; i++) {
-                const nextTimeBar = timeBars.filter(timeBar => timeBar.key == order[i])[0];
-                // Rewrite the keys for the objects
-                nextTimeBar.key = i;
-                orderedTimeBars.push(nextTimeBar)
-            }
-            setTimeBars(orderedTimeBars);
-
-            // Save the new versions of the time bars with updated keys
-            const newTimeBars = [];
-            for (let i = 0; i < orderedTimeBars.length; i++) {
-                newTimeBars.push(orderedTimeBars[i]);
-            }
-            const jsonTimeBars = JSON.stringify(newTimeBars);
-            await AsyncStorage.setItem('timeBars', jsonTimeBars);
-
-            // Resets the order
-            const resetOrder = [];
-            for (let i = 0; i < order.length; i++) {
-                resetOrder.push(i);
-            }
-            setOrder(resetOrder);
-            const jsonOrder = JSON.stringify(resetOrder);
-            await AsyncStorage.setItem('order', jsonOrder);
-
+            setTimeBars(timeBars);
+            setOrder(order);
         }
         //      AsyncStorage.clear();  
     } catch (err) {
@@ -41,12 +17,10 @@ export async function getData(setTimeBars, setOrder) {
 }
 
 export async function createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder) {
-    getData(setTimeBars, setOrder);
     try {
         // Saves the mew time bar
         const updatedTimeBars = timeBars;
         updatedTimeBars.push(newTimeBar);
-        console.log(updatedTimeBars);
         setTimeBars(updatedTimeBars);
         const jsonTimeBars = JSON.stringify(updatedTimeBars);
         await AsyncStorage.setItem('timeBars', jsonTimeBars);
@@ -54,7 +28,6 @@ export async function createTimeBar(timeBars, setTimeBars, newTimeBar, order, se
         // Updates the order
         const updatedOrder = order;
         updatedOrder.push(newTimeBar.key);
-        console.log(updatedOrder);
         setOrder(updatedOrder);
         const jsonOrder = JSON.stringify(order);
         await AsyncStorage.setItem('order', jsonOrder);
@@ -63,7 +36,7 @@ export async function createTimeBar(timeBars, setTimeBars, newTimeBar, order, se
     }
 }
 
-export async function saveNewOrder(order, setOrder, timeBars) {
+export async function saveNewOrder(order, setOrder) {
     try {
         const jsonOrder = JSON.stringify(order);
         await AsyncStorage.setItem('order', jsonOrder);
