@@ -21,9 +21,11 @@ const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar, order, setOrder 
   const [timeBars, setTimeBars] = useState({});
 
   useEffect(() => {
-    // Making the home page contact log the time bars it receives from App.js, THEN setting them for some reason fixes a bug where the timebars appear stacked on one another
-    console.log(timeBarsProps);
-    setTimeBars(timeBarsProps);
+    // Short delay, solves an issue with the time bars rendering stacked on top of each other in the sortable list
+    setTimeout(() => {
+      setTimeBars(timeBarsProps);
+    }, 0)
+
   }); 
 
   return (

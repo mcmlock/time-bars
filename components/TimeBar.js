@@ -59,17 +59,19 @@ const TimeBar = props => {
         return (
             <Animated.View style={[styles.row, style]}>
                 <View style={styles.leftSide}>
-                    <Text style={styles.text}>{data.title}</Text>
-                    <View style={styles.progressBar}>
-
-                    </View>
-                </View>
-                <View style={styles.rightSide}>
                     <TouchableOpacity
                         style={styles.btn}
                     >
                         <FontAwesomeIcon icon={faPlus} size={24} />
                     </TouchableOpacity>
+                </View>
+                <View style={styles.centerPiece}>
+                    <Text style={styles.text}>{data.title}</Text>
+                    <View style={styles.progressBar}>
+
+                    </View>
+                </View>
+                <View style={styles.leftSide}>
                     <TouchableOpacity
                         style={styles.btn}
                         onPress={() => {
@@ -117,15 +119,20 @@ const styles = StyleSheet.create({
     },
     leftSide: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         justifyContent: 'center',
+        width: '15%'
+    },
+    centerPiece: {
+        flex: 1,
         width: '70%',
+        paddingHorizontal: 10
     },
     rightSide: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'flex-end',
-        width: '30%'
+        justifyContent: 'center',
+        width: '15%'
     },
     text: {
         fontSize: 24,
@@ -142,6 +149,6 @@ const styles = StyleSheet.create({
         width: 30,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
 });
