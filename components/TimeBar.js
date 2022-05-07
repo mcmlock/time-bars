@@ -55,6 +55,11 @@ const TimeBar = props => {
         }).start();
     }, [active]);
 
+    const completedTime = Number(data.completedHours) * 60 + Number(data.completedMinutes);
+    const goalTime = Number(data.goalHours) * 60 + Number(data.goalMinutes);
+    const progress = Math.floor(completedTime / goalTime * 100);
+    const progressStr = `${progress}%`;
+
     if (data) {
         return (
             <Animated.View style={[styles.row, style]}>
@@ -68,7 +73,8 @@ const TimeBar = props => {
                 <View style={styles.centerPiece}>
                     <Text style={styles.text}>{data.title}</Text>
                     <View style={styles.progressBar}>
-
+                        <View style={{ width: progress, height: 32, backgroundColor: 'blue' }} />
+                        <Text style={styles.progressText}>{progressStr}</Text>
                     </View>
                 </View>
                 <View style={styles.leftSide}>
@@ -134,15 +140,25 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '15%'
     },
+    progressBar: {
+        marginBottom: 10,
+        marginLeft: '2%',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        height: 36.0,
+        width: '96%',
+        borderWidth: 2.0,
+        borderRadius: 4.0,
+    },
+    progressText: {
+        position: 'absolute',
+        alignSelf: 'flex-end',
+        paddingRight: 12.0,
+        fontSize: 16.0,
+    },
     text: {
         fontSize: 24,
         color: '#222222',
-    },
-    progressBar: {
-        width: '100%',
-        height: 20,
-        borderWidth: 1,
-
     },
     btn: {
         height: 30,
