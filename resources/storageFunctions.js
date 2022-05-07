@@ -18,6 +18,7 @@ export async function getData(setTimeBars, setOrder) {
 }
 
 export async function createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder) {
+    getData(setTimeBars, setOrder);
     try {
         // Saves the mew time bar
         const updatedTimeBars = timeBars;
@@ -32,6 +33,38 @@ export async function createTimeBar(timeBars, setTimeBars, newTimeBar, order, se
         setOrder(updatedOrder);
         const jsonOrder = JSON.stringify(order);
         await AsyncStorage.setItem('order', jsonOrder);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export async function deleteTimeBar(selectedTimebar, timeBars, setTimeBars, order, setOrder) {
+    try {
+        let timeBarsToKeep = timeBars.filter(timeBar => timeBar.key !== selectedTimebar.key);
+        timeBarsToKeep = timeBarsToKeep.map(timeBar => {
+            if (timeBar.key > selectedTimebar.key) {
+                return { ...timeBar, key: timeBar.key - 1 }
+            } else {
+                return { ...timeBar };
+            }
+        });
+        timeBarsToKeep = JSON.stringify(timeBarsToKeep);
+        await AsyncStorage.setItem('timeBars', timeBarsToKeep);
+
+        let updatedOrder = order.map(id => {
+            if (id > selectedTimebar.key) {
+                return id - 1;
+            } else if (id === selectedTimebar.key) {
+                return
+            } else {
+                return id;
+            }
+        });
+        updatedOrder = updatedOrder.filter(id => id !== undefined);
+        updatedOrder = JSON.stringify(updatedOrder);
+        await AsyncStorage.setItem('order', updatedOrder);
+        
+        getData(setTimeBars, setOrder);
     } catch (err) {
         console.log(err);
     }

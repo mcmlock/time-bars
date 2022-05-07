@@ -75,7 +75,6 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                                 completedMinutes: 0,
                                 key: timeBars.length
                             }
-                            getData(setTimeBars, setOrder);
                             createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
                             getData(setTimeBars, setOrder);
                             navigation.navigate('Home');

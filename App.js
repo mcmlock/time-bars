@@ -16,7 +16,6 @@ export default function App() {
 
   useEffect(() => {
     getData(setTimeBars, setOrder);
-    getData(setTimeBars, setOrder);
   }, []);  
 
   return (
@@ -55,7 +54,11 @@ export default function App() {
           {props =>
             <ViewScreen
               {...props}
-              timeBar={selectedTimeBar}
+              selectedTimeBar={selectedTimeBar}
+              timeBars={timeBars}
+              order={order}
+              setTimeBars={setTimeBars}
+              setOrder={setOrder}
             />}
         </Stack.Screen>
       </Stack.Navigator>
