@@ -10,6 +10,7 @@ import {
     Keyboard
 } from 'react-native';
 import DayPicker from '../components/DayPicker';
+import { calcFirstReset } from '../resources/dateFunctions';
 import { createTimeBar, getData } from '../resources/storageFunctions';
 
 const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) => {
@@ -70,6 +71,7 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                                 ((goalHours !== '' && goalHours !== '0') ||
                                     (goalMinutes !== '' && goalMinutes !== '0'))
                             ) {
+                                const firstReset = calcFirstReset(repeatDay);
                                 const newTimeBar = {
                                     title,
                                     goalHours,
@@ -77,10 +79,12 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                                     repeatDay,
                                     completedHours: '0',
                                     completedMinutes: '0',
-                                    key: timeBars.length
+                                    key: timeBars.length,
+                                    nextReset: firstReset
                                 }
                                 if (newTimeBar.goalHours === '') { newTimeBar.goalHours = '0'}
                                 if (newTimeBar.goalMinutes === '') { newTimeBar.goalMinutes = '0' }
+                                console.log(newTimeBar);
                                 createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
                                 getData(setTimeBars, setOrder);
                                 navigation.navigate('Home');

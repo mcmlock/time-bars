@@ -11,7 +11,7 @@ export async function getData(setTimeBars, setOrder) {
             setTimeBars(timeBars);
             setOrder(order);
         }
-        //      AsyncStorage.clear();  
+       //       AsyncStorage.clear();  
     } catch (err) {
         console.log(err);
     }
@@ -81,7 +81,6 @@ export async function saveNewOrder(newOrder) {
 
 export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd, minsToAdd, toggleQuickAdd) {
     try {
-
         const updatedTimeBars = timeBars;
         const key = selectedTimeBar.key;
         const completedHrs = Number(updatedTimeBars[key].completedHours);
@@ -93,6 +92,14 @@ export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd,
         const jsonTimeBars = JSON.stringify(updatedTimeBars);
         await AsyncStorage.setItem('timeBars', jsonTimeBars); 
         toggleQuickAdd(false);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export async function resetTimeBars() {
+    try {
+
     } catch (err) {
         console.log(err);
     }
