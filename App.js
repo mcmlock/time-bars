@@ -29,6 +29,7 @@ export default function App() {
             <HomeScreen
               {...props}
               timeBarsProps={timeBars}
+              selectedTimeBar={selectedTimeBar}
               selectTimeBar={setSelectedTimeBar}
               order={order}
               setOrder={setOrder}

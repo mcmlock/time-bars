@@ -8,25 +8,32 @@ import {
 import SortableList from 'react-native-sortable-list';
 import TimeBar from "../components/TimeBar";
 import BottomBar from "../components/BottomBar";
+import { QuickAddModal } from "../components/QuickAddModal";
 import { getData, saveNewOrder } from "../resources/storageFunctions";
 
 const window = Dimensions.get('window');
 
-const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar, order, setOrder }) => {
-
-  const renderTimeBar = useCallback(({ data, active }) => {
-    return <TimeBar data={data} active={active} selectTimeBar={selectTimeBar} navigation={navigation} />;
-  }, []);
+const HomeScreen = ({ navigation, timeBarsProps, selectedTimeBar, selectTimeBar, order, setOrder }) => {
 
   const [timeBars, setTimeBars] = useState({});
+  const [quickAddOpen, toggleQuickAdd] = useState(false);
 
   useEffect(() => {
     // Short delay, solves an issue with the time bars rendering stacked on top of each other in the sortable list
     setTimeout(() => {
       setTimeBars(timeBarsProps);
     }, 0)
+  });
 
-  }); 
+  const renderTimeBar = useCallback(({ data, active }) => {
+    return <TimeBar
+      data={data}
+      active={active}
+      selectTimeBar={selectTimeBar}
+      navigation={navigation}
+      toggleQuickAdd={toggleQuickAdd}
+    />
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -42,6 +49,14 @@ const HomeScreen = ({ navigation, timeBarsProps, selectTimeBar, order, setOrder 
         }}
       />
       <BottomBar navigation={navigation} />
+
+      <QuickAddModal
+        visible={quickAddOpen}
+        toggleQuickAdd={toggleQuickAdd}
+        selectedTimeBar={selectedTimeBar}
+        timeBars={timeBars}
+        setTimeBars={setTimeBars}
+      />
     </SafeAreaView>
   );
 }

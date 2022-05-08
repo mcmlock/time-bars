@@ -63,7 +63,7 @@ export async function deleteTimeBar(selectedTimebar, timeBars, setTimeBars, orde
         updatedOrder = updatedOrder.filter(id => id !== undefined);
         updatedOrder = JSON.stringify(updatedOrder);
         await AsyncStorage.setItem('order', updatedOrder);
-        
+
         getData(setTimeBars, setOrder);
     } catch (err) {
         console.log(err);
@@ -74,6 +74,25 @@ export async function saveNewOrder(newOrder) {
     try {
         const jsonOrder = JSON.stringify(newOrder);
         await AsyncStorage.setItem('order', jsonOrder);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd, minsToAdd, toggleQuickAdd) {
+    try {
+
+        const updatedTimeBars = timeBars;
+        const key = selectedTimeBar.key;
+        const completedHrs = Number(updatedTimeBars[key].completedHours);
+        const completedMins = Number(updatedTimeBars[key].completedMinutes);
+        const totalTime = (completedHrs * 60) + completedMins + (hrsToAdd * 60) + minsToAdd;
+        updatedTimeBars[key].completedHours = Math.floor(totalTime / 60);
+        updatedTimeBars[key].completedMinutes = totalTime % 60;
+        setTimeBars(updatedTimeBars);
+        const jsonTimeBars = JSON.stringify(updatedTimeBars);
+        await AsyncStorage.setItem('timeBars', jsonTimeBars); 
+        toggleQuickAdd(false);
     } catch (err) {
         console.log(err);
     }

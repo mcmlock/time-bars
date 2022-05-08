@@ -7,7 +7,7 @@ const window = Dimensions.get('window');
 
 const TimeBar = props => {
 
-    const { data, active, selectTimeBar, navigation } = props;
+    const { data, active, selectTimeBar, navigation, toggleQuickAdd } = props;
 
     const activeAnim = useRef(new Animated.Value(0));
     const style = useMemo(
@@ -73,6 +73,10 @@ const TimeBar = props => {
                 <View style={styles.leftSide}>
                     <TouchableOpacity
                         style={styles.btn}
+                        onPress={() => {
+                            selectTimeBar(data);
+                            toggleQuickAdd(true);
+                        }}
                     >
                         <FontAwesomeIcon icon={faPlus} size={24} />
                     </TouchableOpacity>
@@ -84,7 +88,7 @@ const TimeBar = props => {
                         <Text style={styles.progressText}>{progressStr}</Text>
                     </View>
                 </View>
-                <View style={styles.leftSide}>
+                <View style={styles.rightSide}>
                     <TouchableOpacity
                         style={styles.btn}
                         onPress={() => {
