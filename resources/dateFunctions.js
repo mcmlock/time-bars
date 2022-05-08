@@ -50,12 +50,18 @@ export const calcDateValue = (month, day, year) => {
     return monthValue + dayValue + yearValue;
 }
 
-export const calcFirstReset = repeatDay => {
+export const calcTodayValue = () => {
     const currentDate = new Date();
     const month = currentDate.getMonth();
     const day = currentDate.getDate();
     const year = currentDate.getFullYear() - 2000;
-    const currentDateValue = calcDateValue(month, day, year);
+    return calcDateValue(month, day, year);
+}
+
+export const calcFirstReset = repeatDay => {
+    const currentDate = new Date();
+
+    const currentDateValue = calcTodayValue();
     
     const todayValue = currentDate.getDay() + 1;
     if (todayValue === repeatDay) {

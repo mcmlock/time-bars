@@ -1,5 +1,6 @@
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { calcTodayValue } from "./dateFunctions";
 
 export async function getData(setTimeBars, setOrder) {
     try {
@@ -97,9 +98,23 @@ export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd,
     }
 }
 
-export async function resetTimeBars() {
+export async function resetTimeBars(setTimeBars, setOrder) {
     try {
-
+        let timeBars = await AsyncStorage.getItem('timeBars');
+        if (timeBars) {
+            timeBars = JSON.parse(timeBars);
+            const todayValue = calcTodayValue();
+            for (let i = 0; i < timeBars.length; i++) {
+                if (todayValue >= timeBars[i].nextReset) {
+                    timeBars[i].completedHours = 0;
+                    timeBars[i].completedMinutes = 0;
+                    timeBars[i].nextReset = timeBars[i].nextReset + 10080;
+                }
+            } 
+            timeBars = JSON.stringify(timeBars);
+            await AsyncStorage.setItem('timeBars', timeBars); 
+            getData(setTimeBars, setOrder);
+        }
     } catch (err) {
         console.log(err);
     }

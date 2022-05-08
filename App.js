@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { getData } from './resources/storageFunctions';
+import { getData, resetTimeBars } from './resources/storageFunctions';
 import HomeScreen from './screens/HomeScreen';
 import CreateScreen from './screens/CreateScreen';
 import ViewScreen from './screens/ViewScreen';
@@ -15,6 +15,7 @@ export default function App() {
   const [selectedTimeBar, setSelectedTimeBar] = useState();
 
   useEffect(() => {
+    resetTimeBars(setTimeBars, setOrder);
     getData(setTimeBars, setOrder);
   }, []);  
 
