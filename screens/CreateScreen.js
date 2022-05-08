@@ -66,18 +66,25 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                     <TouchableOpacity
                         style={styles.createBtn}
                         onPress={() => {
-                            const newTimeBar = {
-                                title,
-                                goalHours,
-                                goalMinutes,
-                                repeatDay,
-                                completedHours: 0,
-                                completedMinutes: 0,
-                                key: timeBars.length
+                            if (title !== '' &&
+                                ((goalHours !== '' && goalHours !== '0') ||
+                                    (goalMinutes !== '' && goalMinutes !== '0'))
+                            ) {
+                                const newTimeBar = {
+                                    title,
+                                    goalHours,
+                                    goalMinutes,
+                                    repeatDay,
+                                    completedHours: '0',
+                                    completedMinutes: '0',
+                                    key: timeBars.length
+                                }
+                                if (newTimeBar.goalHours === '') { newTimeBar.goalHours = '0'}
+                                if (newTimeBar.goalMinutes === '') { newTimeBar.goalMinutes = '0' }
+                                createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
+                                getData(setTimeBars, setOrder);
+                                navigation.navigate('Home');
                             }
-                            createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
-                            getData(setTimeBars, setOrder);
-                            navigation.navigate('Home');
                         }}
                     >
                         <Text>

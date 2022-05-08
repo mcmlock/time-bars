@@ -55,9 +55,16 @@ const TimeBar = props => {
         }).start();
     }, [active]);
 
-    const completedTime = Number(data.completedHours) * 60 + Number(data.completedMinutes);
-    const goalTime = Number(data.goalHours) * 60 + Number(data.goalMinutes);
-    const progress = Math.floor(completedTime / goalTime * 100);
+    // When the app initally loads and data is equal to know because 'getData' hasn't finished running, trying to access data properties causes an error
+    // I added a check for data first, and that fixed the bug
+    let completedTime;
+    let goalTime;
+    let progress = 0;
+    if (data) {
+        completedTime = Number(data.completedHours) * 60 + Number(data.completedMinutes);
+        goalTime = Number(data.goalHours) * 60 + Number(data.goalMinutes);
+        progress = Math.floor(completedTime / goalTime * 100);
+    }
     const progressStr = `${progress}%`;
 
     if (data) {
