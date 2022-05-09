@@ -74,3 +74,29 @@ export const calcFirstReset = repeatDay => {
         return (7 - todayValue + repeatDay + 1) * 1440 + currentDateValue;
     }
 }
+
+export const getDayName = repeatDay => {
+    switch (repeatDay) {
+        case 1: 
+            return 'Sunday';
+            break;
+        case 2:
+            return 'Monday';
+            break;
+        case 3:
+            return 'Tuesday';
+            break;
+        case 4: 
+            return 'Wednesday';
+            break;
+        case 5:
+            return 'Thursday';
+            break;
+        case 6:
+            return 'Friday';
+            break;
+        default:
+            return 'Saturday';
+            break;
+    }
+}

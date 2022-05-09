@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Modal, Text, View, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { quickAdd } from '../resources/storageFunctions';
+import { quickAdd } from '../../resources/storageFunctions';
 
 export const QuickAddModal = ({ visible, toggleQuickAdd, selectedTimeBar, timeBars, setTimeBars }) => {
 

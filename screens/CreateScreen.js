@@ -84,7 +84,6 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                                 }
                                 if (newTimeBar.goalHours === '') { newTimeBar.goalHours = '0'}
                                 if (newTimeBar.goalMinutes === '') { newTimeBar.goalMinutes = '0' }
-                                console.log(newTimeBar);
                                 createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
                                 getData(setTimeBars, setOrder);
                                 navigation.navigate('Home');
