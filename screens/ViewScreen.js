@@ -7,6 +7,7 @@ import { EditColorModal } from '../components/modals/EditColorModal';
 import { EditProgressModal } from '../components/modals/EditProgressModal';
 import { EditGoalModal } from '../components/modals/EditGoalModal';
 import { EditRepeatDay } from '../components/modals/EditRepeatDayModal';
+import { DeletionModal } from '../components/modals/DeletionModal';
 
 const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setTimeBars, order, setOrder }) => {
 
@@ -17,6 +18,8 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
     const [editProgressVisible, toggleEditProgress] = useState(false);
     const [editGoalVisible, toggleEditGoal] = useState(false);
     const [editRepeatDayVisible, toggleEditRepeatDay] = useState(false);
+    const [confirmDeleteVisible, toggleConfirmDelete] = useState(false);
+    const [deleteBar, setDeleteBar] = useState(false);
 
     const completedTime = Number(selectedTimeBar.completedHours) * 60 + Number(selectedTimeBar.completedMinutes);
     const goalTime = Number(selectedTimeBar.goalHours) * 60 + Number(selectedTimeBar.goalMinutes);
@@ -44,7 +47,13 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
 
     useEffect(() => {
         getBarFill(barWidth);
-    }, [editProgressVisible, editGoalVisible])
+    }, [editProgressVisible, editGoalVisible]);
+
+    useEffect(() => {
+        if (deleteBar) {
+            navigation.navigate('Home');
+        }
+    }, [confirmDeleteVisible]); 
 
     return (
         <SafeAreaView style={styles.container}>
@@ -88,8 +97,7 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
             <TouchableOpacity
                 style={styles.deleteBtn}
                 onPress={() => {
-                    deleteTimeBar(selectedTimeBar, timeBars, setTimeBars, order, setOrder);
-                    navigation.navigate('Home');
+                    toggleConfirmDelete(true);
                 }}
             >
                 <Text>
@@ -141,6 +149,17 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
                 timeBars={timeBars}
                 setTimeBars={setTimeBars}
                 setOrder={setOrder}
+            />
+            <DeletionModal
+                visible={confirmDeleteVisible}
+                toggleModal={toggleConfirmDelete}
+                navigation={navigation}
+                selectedTimeBar={selectedTimeBar}
+                timeBars={timeBars}
+                setTimeBars={setTimeBars}
+                order={order}
+                setOrder={setOrder}
+                setDeleteBar={setDeleteBar}
             />
         </SafeAreaView >
     )
