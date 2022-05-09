@@ -56,6 +56,7 @@ const HomeScreen = ({ navigation, timeBarsProps, selectedTimeBar, selectTimeBar,
         selectedTimeBar={selectedTimeBar}
         timeBars={timeBars}
         setTimeBars={setTimeBars}
+        setOrder={setOrder}
       />
     </SafeAreaView>
   );

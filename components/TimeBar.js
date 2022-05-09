@@ -1,3 +1,4 @@
+
 import { useMemo, useRef, useEffect, useState } from "react";
 import { StyleSheet, Animated, Text, Easing, Platform, Dimensions, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -9,6 +10,7 @@ const TimeBar = props => {
 
     const { data, active, selectTimeBar, navigation, toggleQuickAdd } = props;
 
+    const [barWidth, setBarWidth] = useState(0);
     const [barFill, setBarFill] = useState(0);
 
     const activeAnim = useRef(new Animated.Value(0));
@@ -82,6 +84,11 @@ const TimeBar = props => {
         }
     }
 
+    useEffect(() => {
+        getBarFill(barWidth);
+    }, [barWidth]);
+
+
     const progressStr = `${progress}%`;
 
     if (data) {
@@ -103,7 +110,7 @@ const TimeBar = props => {
                     <View style={styles.progressBar}
                         onLayout={event => {
                             const { width } = event.nativeEvent.layout;
-                            getBarFill(width);
+                            setBarWidth(width);
                         }}
                     >
                         <View style={{ width: barFill, height: 32, backgroundColor: color }}/>

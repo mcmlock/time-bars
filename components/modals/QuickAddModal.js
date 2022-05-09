@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { quickAdd } from '../../resources/storageFunctions';
 
-export const QuickAddModal = ({ visible, toggleQuickAdd, selectedTimeBar, timeBars, setTimeBars }) => {
+export const QuickAddModal = ({ visible, toggleQuickAdd, selectedTimeBar, timeBars, setTimeBars, setOrder }) => {
 
     const [hourInput, setHourInput] = useState('');
     const [minuteInput, setMinuteInput] = useState('');
@@ -42,7 +42,7 @@ export const QuickAddModal = ({ visible, toggleQuickAdd, selectedTimeBar, timeBa
                         onPress={() => {
                             const hrsToAdd = hourInput ? Number(hourInput) : 0;
                             const minsToAdd = minuteInput ? Number(minuteInput) : 0;
-                            quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd, minsToAdd, toggleQuickAdd);
+                            quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd, minsToAdd, toggleQuickAdd, setOrder);
                         }}
                     >
                         <FontAwesomeIcon

@@ -102,7 +102,7 @@ export async function resetTimeBars(setTimeBars, setOrder) {
     }
 }
 
-export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd, minsToAdd, toggleQuickAdd) {
+export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd, minsToAdd, toggleQuickAdd, setOrder) {
     try {
         const updatedTimeBars = timeBars;
         const key = selectedTimeBar.key;
@@ -114,6 +114,7 @@ export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd,
         setTimeBars(updatedTimeBars);
         const jsonTimeBars = JSON.stringify(updatedTimeBars);
         await AsyncStorage.setItem('timeBars', jsonTimeBars); 
+        getData(setTimeBars, setOrder);
         toggleQuickAdd(false);
     } catch (err) {
         console.log(err);
