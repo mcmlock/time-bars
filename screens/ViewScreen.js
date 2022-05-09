@@ -3,11 +3,13 @@ import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-na
 import { deleteTimeBar } from '../resources/storageFunctions';
 import { getDayName } from '../resources/dateFunctions';
 import { EditTitleModal } from '../components/modals/EditTitleModal';
+import { EditColorModal } from '../components/modals/EditColorModal';
 
-const ViewScreen = ({ navigation, selectedTimeBar, timeBars, setTimeBars, order, setOrder }) => {
+const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setTimeBars, order, setOrder }) => {
 
     const [barFill, setBarFill] = useState(0);
     const [editTitleVisible, toggleEditTitle] = useState(false);
+    const [editColorVisible, toggleEditColor] = useState(false);
 
     const completedTime = Number(selectedTimeBar.completedHours) * 60 + Number(selectedTimeBar.completedMinutes);
     const goalTime = Number(selectedTimeBar.goalHours) * 60 + Number(selectedTimeBar.goalMinutes);
@@ -38,16 +40,18 @@ const ViewScreen = ({ navigation, selectedTimeBar, timeBars, setTimeBars, order,
             <TouchableOpacity
                 onPress={() => toggleEditTitle(true)}
             >
-            <Text style={styles.title}>{selectedTimeBar.title}</Text>
+                <Text style={styles.title}>{selectedTimeBar.title}</Text>
             </TouchableOpacity>
-            <View style={styles.progressBar}
+            <TouchableOpacity
+                style={styles.progressBar}
                 onLayout={event => {
                     const { width } = event.nativeEvent.layout;
                     getBarFill(width);
                 }}
+                onPress={() => toggleEditColor(true)}
             >
                 <View style={{ width: barFill, height: 60, backgroundColor: selectedTimeBar.color }} />
-            </View>
+            </TouchableOpacity>
             <Text style={styles.subtitle}>{completedStr}</Text>
             <Text style={styles.subtitle}>{goalStr}</Text>
             <Text style={styles.subtitle}>{remainingStr}</Text>
@@ -76,11 +80,21 @@ const ViewScreen = ({ navigation, selectedTimeBar, timeBars, setTimeBars, order,
                 visible={editTitleVisible}
                 toggleModal={toggleEditTitle}
                 selectedTimeBar={selectedTimeBar}
+                selectTimeBar={selectTimeBar}
                 timeBars={timeBars}
                 setTimeBars={setTimeBars}
                 setOrder={setOrder}
             />
-        </SafeAreaView>
+            <EditColorModal
+                visible={editColorVisible}
+                toggleModal={toggleEditColor}
+                selectedTimeBar={selectedTimeBar}
+                selectTimeBar={selectTimeBar}
+                timeBars={timeBars}
+                setTimeBars={setTimeBars}
+                setOrder={setOrder}
+            />
+        </SafeAreaView >
     )
 }
 

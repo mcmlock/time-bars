@@ -13,22 +13,6 @@ import DayPicker from '../components/DayPicker';
 import { calcFirstReset } from '../resources/dateFunctions';
 import { createTimeBar, getData } from '../resources/storageFunctions';
 
-/* const ColorPicker = ({ color, meterColor, setMeterColor }) => {
-    return (
-        <TouchableOpacity
-            style={{ marginHorizontal: 12.0 }}
-            onPress={() => {
-                setMeterColor(color.color)
-            }}>
-            <View style={{ backgroundColor: color.color } &&
-                meterColor === color.color ?
-                styles.activeColorBtn :
-                styles.inactiveColorBtn}
-            />
-        </TouchableOpacity>
-    );
-} */
-
 const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) => {
 
     const [title, setTitle] = useState('');

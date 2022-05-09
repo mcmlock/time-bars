@@ -56,6 +56,7 @@ export default function App() {
           {props =>
             <ViewScreen
               {...props}
+              selectTimeBar={setSelectedTimeBar}
               selectedTimeBar={selectedTimeBar}
               timeBars={timeBars}
               order={order}

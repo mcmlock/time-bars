@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Modal, Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { editTitle } from '../../resources/storageFunctions';
 
-export const EditTitleModal = ({ visible, toggleModal, selectedTimeBar, timeBars, setTimeBars, setOrder }) => {
+export const EditTitleModal = ({ visible, toggleModal, selectedTimeBar, selectTimeBar, timeBars, setTimeBars, setOrder }) => {
 
     const [newTitle, setNewTitle] = useState(selectedTimeBar.title);
 
@@ -27,7 +27,7 @@ export const EditTitleModal = ({ visible, toggleModal, selectedTimeBar, timeBars
                         style={{ marginHorizontal: 50.0, justifyContent: 'center', alignItems: 'center', marginBottom: 30, width: 50, height: 50 }}
                         onPress={() => {
                             if (newTitle !== '') {
-                                editTitle(selectedTimeBar, timeBars, setTimeBars, setOrder, newTitle, toggleModal);
+                                editTitle(selectedTimeBar, timeBars, setTimeBars, setOrder, newTitle, selectTimeBar, toggleModal);
                             }
                         }}
                     >

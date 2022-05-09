@@ -120,7 +120,7 @@ export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd,
     }
 }
 
-export async function editTitle(selectedTimeBar, timeBars, setTimeBars, setOrder, newTitle, toggleModal) {
+export async function editTitle(selectedTimeBar, timeBars, setTimeBars, setOrder, newTitle, selectTimeBar, toggleModal) {
     try {
         const updatedTimeBars = timeBars;
         const key = selectedTimeBar.key;
@@ -128,6 +128,23 @@ export async function editTitle(selectedTimeBar, timeBars, setTimeBars, setOrder
         setTimeBars(updatedTimeBars);
         const jsonTimeBars = JSON.stringify(updatedTimeBars);
         await AsyncStorage.setItem('timeBars', jsonTimeBars); 
+        selectTimeBar(updatedTimeBars[key]);
+        getData(setTimeBars, setOrder);
+        toggleModal(false);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export async function editColor(selectedTimeBar, timeBars, setTimeBars, setOrder, newColor, selectTimeBar, toggleModal) {
+    try {
+        const updatedTimeBars = timeBars;
+        const key = selectedTimeBar.key;
+        updatedTimeBars[key].color = newColor;
+        setTimeBars(updatedTimeBars);
+        const jsonTimeBars = JSON.stringify(updatedTimeBars);
+        await AsyncStorage.setItem('timeBars', jsonTimeBars); 
+        selectTimeBar(updatedTimeBars[key]);
         getData(setTimeBars, setOrder);
         toggleModal(false);
     } catch (err) {
