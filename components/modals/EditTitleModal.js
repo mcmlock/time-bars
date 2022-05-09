@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, Modal, Text, View, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { quickAdd } from '../../resources/storageFunctions';
+import { StyleSheet, Modal, Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import { editTitle } from '../../resources/storageFunctions';
 
-export const QuickAddModal = ({ visible, toggleQuickAdd, selectedTimeBar, timeBars, setTimeBars }) => {
+export const EditTitleModal = ({ visible, toggleModal, selectedTimeBar, timeBars, setTimeBars, setOrder }) => {
 
-    const [hourInput, setHourInput] = useState('');
-    const [minuteInput, setMinuteInput] = useState('');
+    const [newTitle, setNewTitle] = useState(selectedTimeBar.title);
 
     const resetModal = () => {
-        setHourInput('');
-        setMinuteInput('');
+        setNewTitle(selectedTimeBar.title);
     }
 
     return (
@@ -20,40 +16,27 @@ export const QuickAddModal = ({ visible, toggleQuickAdd, selectedTimeBar, timeBa
                 <View style={styles.contentView}>
                     <View style={styles.inputRow}>
                         <TextInput
-                            placeholder='HH'
+                            placeholder='New Title'
                             placeholderTextColor="#444"
-                            keyboardType='number-pad'
                             style={styles.textInput}
-                            maxLength={2}
-                            onChangeText={value => setHourInput(value)}
-                        />
-                        <Text style={{ fontSize: 26.0, paddingHorizontal: 8.0, fontWeight: 'bold' }}>:</Text>
-                        <TextInput
-                            placeholder='MM'
-                            placeholderTextColor="#444"
-                            keyboardType='number-pad'
-                            style={styles.textInput}
-                            maxLength={2}
-                            onChangeText={value => setMinuteInput(value)}
+                            value={newTitle}
+                            onChangeText={value => setNewTitle(value)}
                         />
                     </View>
                     <TouchableOpacity
                         style={{ marginHorizontal: 50.0, justifyContent: 'center', alignItems: 'center', marginBottom: 30, width: 50, height: 50 }}
                         onPress={() => {
-                            const hrsToAdd = hourInput ? Number(hourInput) : 0;
-                            const minsToAdd = minuteInput ? Number(minuteInput) : 0;
-                            quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd, minsToAdd, toggleQuickAdd);
+                            if (newTitle !== '') {
+                                editTitle(selectedTimeBar, timeBars, setTimeBars, setOrder, newTitle, toggleModal);
+                            }
                         }}
                     >
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            size={40}
-                        />
+                        <Text style={{ fontSize: 20.0, alignSelf: 'center' }}>Save</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
                             resetModal();
-                            toggleQuickAdd(false);
+                            toggleModal(false);
                         }}
                     >
                         <Text style={{ fontSize: 20.0, alignSelf: 'center' }}>Back</Text>

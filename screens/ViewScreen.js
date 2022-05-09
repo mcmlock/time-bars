@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
 import { deleteTimeBar } from '../resources/storageFunctions';
 import { getDayName } from '../resources/dateFunctions';
+import { EditTitleModal } from '../components/modals/EditTitleModal';
 
 const ViewScreen = ({ navigation, selectedTimeBar, timeBars, setTimeBars, order, setOrder }) => {
 
     const [barFill, setBarFill] = useState(0);
+    const [editTitleVisible, toggleEditTitle] = useState(false);
 
     const completedTime = Number(selectedTimeBar.completedHours) * 60 + Number(selectedTimeBar.completedMinutes);
     const goalTime = Number(selectedTimeBar.goalHours) * 60 + Number(selectedTimeBar.goalMinutes);
@@ -33,7 +35,11 @@ const ViewScreen = ({ navigation, selectedTimeBar, timeBars, setTimeBars, order,
 
     return (
         <SafeAreaView style={styles.container}>
+            <TouchableOpacity
+                onPress={() => toggleEditTitle(true)}
+            >
             <Text style={styles.title}>{selectedTimeBar.title}</Text>
+            </TouchableOpacity>
             <View style={styles.progressBar}
                 onLayout={event => {
                     const { width } = event.nativeEvent.layout;
@@ -65,6 +71,15 @@ const ViewScreen = ({ navigation, selectedTimeBar, timeBars, setTimeBars, order,
                     Delete
                 </Text>
             </TouchableOpacity>
+
+            <EditTitleModal
+                visible={editTitleVisible}
+                toggleModal={toggleEditTitle}
+                selectedTimeBar={selectedTimeBar}
+                timeBars={timeBars}
+                setTimeBars={setTimeBars}
+                setOrder={setOrder}
+            />
         </SafeAreaView>
     )
 }

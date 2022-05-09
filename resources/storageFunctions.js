@@ -80,6 +80,28 @@ export async function saveNewOrder(newOrder) {
     }
 }
 
+export async function resetTimeBars(setTimeBars, setOrder) {
+    try {
+        let timeBars = await AsyncStorage.getItem('timeBars');
+        if (timeBars) {
+            timeBars = JSON.parse(timeBars);
+            const todayValue = calcTodayValue();
+            for (let i = 0; i < timeBars.length; i++) {
+                if (todayValue >= timeBars[i].nextReset) {
+                    timeBars[i].completedHours = 0;
+                    timeBars[i].completedMinutes = 0;
+                    timeBars[i].nextReset = timeBars[i].nextReset + 10080;
+                }
+            } 
+            timeBars = JSON.stringify(timeBars);
+            await AsyncStorage.setItem('timeBars', timeBars); 
+            getData(setTimeBars, setOrder);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd, minsToAdd, toggleQuickAdd) {
     try {
         const updatedTimeBars = timeBars;
@@ -98,23 +120,16 @@ export async function quickAdd(selectedTimeBar, timeBars, setTimeBars, hrsToAdd,
     }
 }
 
-export async function resetTimeBars(setTimeBars, setOrder) {
+export async function editTitle(selectedTimeBar, timeBars, setTimeBars, setOrder, newTitle, toggleModal) {
     try {
-        let timeBars = await AsyncStorage.getItem('timeBars');
-        if (timeBars) {
-            timeBars = JSON.parse(timeBars);
-            const todayValue = calcTodayValue();
-            for (let i = 0; i < timeBars.length; i++) {
-                if (todayValue >= timeBars[i].nextReset) {
-                    timeBars[i].completedHours = 0;
-                    timeBars[i].completedMinutes = 0;
-                    timeBars[i].nextReset = timeBars[i].nextReset + 10080;
-                }
-            } 
-            timeBars = JSON.stringify(timeBars);
-            await AsyncStorage.setItem('timeBars', timeBars); 
-            getData(setTimeBars, setOrder);
-        }
+        const updatedTimeBars = timeBars;
+        const key = selectedTimeBar.key;
+        updatedTimeBars[key].title = newTitle;
+        setTimeBars(updatedTimeBars);
+        const jsonTimeBars = JSON.stringify(updatedTimeBars);
+        await AsyncStorage.setItem('timeBars', jsonTimeBars); 
+        getData(setTimeBars, setOrder);
+        toggleModal(false);
     } catch (err) {
         console.log(err);
     }

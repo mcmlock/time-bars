@@ -9,7 +9,7 @@ import SortableList from 'react-native-sortable-list';
 import TimeBar from "../components/TimeBar";
 import BottomBar from "../components/BottomBar";
 import { QuickAddModal } from "../components/modals/QuickAddModal";
-import { getData, saveNewOrder } from "../resources/storageFunctions";
+import { saveNewOrder } from "../resources/storageFunctions";
 
 const window = Dimensions.get('window');
 
