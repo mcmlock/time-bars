@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
 import { StyleSheet, Animated, Text, Easing, Platform, Dimensions, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus, faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +8,8 @@ const window = Dimensions.get('window');
 const TimeBar = props => {
 
     const { data, active, selectTimeBar, navigation, toggleQuickAdd } = props;
+
+    const [barFill, setBarFill] = useState(0);
 
     const activeAnim = useRef(new Animated.Value(0));
     const style = useMemo(
@@ -65,6 +67,19 @@ const TimeBar = props => {
         goalTime = Number(data.goalHours) * 60 + Number(data.goalMinutes);
         progress = Math.floor(completedTime / goalTime * 100);
     }
+
+    const getBarFill = (width) => {
+        if (data) {
+            if (progress > 100) {
+                const updatedBarFill = width - 4;
+                setBarFill(updatedBarFill)
+;            } else {
+                const updatedBarFill = width * progress / 100 - 4;
+                setBarFill(updatedBarFill);
+            }
+        }
+    }
+
     const progressStr = `${progress}%`;
 
     if (data) {
@@ -83,8 +98,13 @@ const TimeBar = props => {
                 </View>
                 <View style={styles.centerPiece}>
                     <Text style={styles.text}>{data.title}</Text>
-                    <View style={styles.progressBar}>
-                        <View style={{ width: progress, height: 32, backgroundColor: 'blue' }} />
+                    <View style={styles.progressBar}
+                        onLayout={event => {
+                            const { width } = event.nativeEvent.layout;
+                            getBarFill(width);
+                        }}
+                    >
+                        <View style={{ width: barFill, height: 32, backgroundColor: 'blue' }}/>
                         <Text style={styles.progressText}>{progressStr}</Text>
                     </View>
                 </View>
