@@ -13,12 +13,56 @@ import DayPicker from '../components/DayPicker';
 import { calcFirstReset } from '../resources/dateFunctions';
 import { createTimeBar, getData } from '../resources/storageFunctions';
 
+/* const ColorPicker = ({ color, meterColor, setMeterColor }) => {
+    return (
+        <TouchableOpacity
+            style={{ marginHorizontal: 12.0 }}
+            onPress={() => {
+                setMeterColor(color.color)
+            }}>
+            <View style={{ backgroundColor: color.color } &&
+                meterColor === color.color ?
+                styles.activeColorBtn :
+                styles.inactiveColorBtn}
+            />
+        </TouchableOpacity>
+    );
+} */
+
 const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) => {
 
     const [title, setTitle] = useState('');
     const [goalHours, setGoalHours] = useState('');
     const [goalMinutes, setGoalMinutes] = useState('');
     const [repeatDay, setRepeatDay] = useState(7);
+    const [barColor, setBarColor] = useState('#1fbaed');
+
+    const ColorPicker = color => {
+        const btnStyles = StyleSheet.create({
+            activeColorBtn: {
+                width: 45,
+                height: 45,
+                backgroundColor: color.color,
+                borderWidth: 1.4
+            },
+            inactiveColorBtn: {
+                width: 45,
+                height: 45,
+                backgroundColor: color.color,
+            }
+        });
+        const btnStyle = barColor === color.color ? btnStyles.activeColorBtn : btnStyles.inactiveColorBtn;
+
+        return (
+            <TouchableOpacity
+                style={{ marginHorizontal: 12.0 }}
+                onPress={() => {
+                    setBarColor(color.color)
+                }}>
+                <View style={btnStyle} />
+            </TouchableOpacity>
+        );
+    }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -55,6 +99,21 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                     <Text style={styles.text}>on</Text>
                     <DayPicker repeatDay={repeatDay} setRepeatDay={setRepeatDay} />
                 </View>
+                <View style={styles.colorSelect}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <ColorPicker color='#1fbaed' />
+                        <ColorPicker color='#1fedce' />
+                        <ColorPicker color='#901fed' />
+                        <ColorPicker color='#1f4fed' />
+
+                    </View>
+                    <View style={{ flexDirection: 'row', marginTop: 16.0 }}>
+                        <ColorPicker color='#ed1f37' />
+                        <ColorPicker color='#ed9e1f' />
+                        <ColorPicker color='#eddf1f' />
+                        <ColorPicker color='#ed1fce' />
+                    </View>
+                </View>
                 <View style={styles.bottomBtnsRow}>
                     <TouchableOpacity
                         style={styles.backBtn}
@@ -73,16 +132,18 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                             ) {
                                 const firstReset = calcFirstReset(repeatDay);
                                 const newTimeBar = {
+                                    key: timeBars.length,
                                     title,
                                     goalHours,
                                     goalMinutes,
                                     repeatDay,
                                     completedHours: '0',
                                     completedMinutes: '0',
-                                    key: timeBars.length,
-                                    nextReset: firstReset
+                                    nextReset: firstReset,
+                                    color: barColor
                                 }
-                                if (newTimeBar.goalHours === '') { newTimeBar.goalHours = '0'}
+                                console.log(newTimeBar);
+                                if (newTimeBar.goalHours === '') { newTimeBar.goalHours = '0' }
                                 if (newTimeBar.goalMinutes === '') { newTimeBar.goalMinutes = '0' }
                                 createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
                                 getData(setTimeBars, setOrder);
@@ -140,11 +201,25 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
     },
+    colorSelect: {
+        marginTop: 14,
+        alignItems: 'center'
+    },
     bottomBtnsRow: {
         width: '90%',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    activeColorBtn: {
+        width: 45,
+        height: 45,
+        borderWidth: 1.4,
+        borderColor: 'black'
+    },
+    inactiveColorBtn: {
+        width: 45,
+        height: 45,
     },
     createBtn: {
         marginTop: 20,

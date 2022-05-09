@@ -46,7 +46,7 @@ const ViewScreen = ({ navigation, selectedTimeBar, timeBars, setTimeBars, order,
                     getBarFill(width);
                 }}
             >
-                <View style={{ width: barFill, height: 60, backgroundColor: 'blue' }} />
+                <View style={{ width: barFill, height: 60, backgroundColor: selectedTimeBar.color }} />
             </View>
             <Text style={styles.subtitle}>{completedStr}</Text>
             <Text style={styles.subtitle}>{goalStr}</Text>

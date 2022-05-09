@@ -62,10 +62,12 @@ const TimeBar = props => {
     let completedTime;
     let goalTime;
     let progress = 0;
+    let color = '#1fbaed';
     if (data) {
         completedTime = Number(data.completedHours) * 60 + Number(data.completedMinutes);
         goalTime = Number(data.goalHours) * 60 + Number(data.goalMinutes);
         progress = Math.floor(completedTime / goalTime * 100);
+        color = data.color;
     }
 
     const getBarFill = (width) => {
@@ -104,7 +106,7 @@ const TimeBar = props => {
                             getBarFill(width);
                         }}
                     >
-                        <View style={{ width: barFill, height: 32, backgroundColor: 'blue' }}/>
+                        <View style={{ width: barFill, height: 32, backgroundColor: color }}/>
                         <Text style={styles.progressText}>{progressStr}</Text>
                     </View>
                 </View>
