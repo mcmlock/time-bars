@@ -6,6 +6,7 @@ import { EditTitleModal } from '../components/modals/EditTitleModal';
 import { EditColorModal } from '../components/modals/EditColorModal';
 import { EditProgressModal } from '../components/modals/EditProgressModal';
 import { EditGoalModal } from '../components/modals/EditGoalModal';
+import { EditRepeatDay } from '../components/modals/EditRepeatDayModal';
 
 const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setTimeBars, order, setOrder }) => {
 
@@ -15,6 +16,7 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
     const [editColorVisible, toggleEditColor] = useState(false);
     const [editProgressVisible, toggleEditProgress] = useState(false);
     const [editGoalVisible, toggleEditGoal] = useState(false);
+    const [editRepeatDayVisible, toggleEditRepeatDay] = useState(false);
 
     const completedTime = Number(selectedTimeBar.completedHours) * 60 + Number(selectedTimeBar.completedMinutes);
     const goalTime = Number(selectedTimeBar.goalHours) * 60 + Number(selectedTimeBar.goalMinutes);
@@ -42,7 +44,7 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
 
     useEffect(() => {
         getBarFill(barWidth);
-    }, [editTitleVisible, editColorVisible, editProgressVisible, editGoalVisible])
+    }, [editProgressVisible, editGoalVisible])
 
     return (
         <SafeAreaView style={styles.container}>
@@ -72,7 +74,9 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
                 <Text style={styles.subtitle}>{goalStr}</Text>
             </TouchableOpacity>
             <Text style={styles.subtitle}>{remainingStr}</Text>
-            <Text style={styles.subtitle}>{dueStr}</Text>
+            <TouchableOpacity onPress={() => toggleEditRepeatDay(true)}>
+                <Text style={styles.subtitle}>{dueStr}</Text>
+            </TouchableOpacity>
             <TouchableOpacity
                 style={styles.backBtn}
                 onPress={() => navigation.navigate('Home')}
@@ -123,6 +127,15 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
             <EditGoalModal
                 visible={editGoalVisible}
                 toggleModal={toggleEditGoal}
+                selectedTimeBar={selectedTimeBar}
+                selectTimeBar={selectTimeBar}
+                timeBars={timeBars}
+                setTimeBars={setTimeBars}
+                setOrder={setOrder}
+            />
+            <EditRepeatDay
+                visible={editRepeatDayVisible}
+                toggleModal={toggleEditRepeatDay}
                 selectedTimeBar={selectedTimeBar}
                 selectTimeBar={selectTimeBar}
                 timeBars={timeBars}

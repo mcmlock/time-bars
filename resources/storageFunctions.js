@@ -187,3 +187,19 @@ export async function editGoal(selectedTimeBar, timeBars, setTimeBars, setOrder,
         console.log(err);
     }
 }
+
+export async function editRepeatDay(selectedTimeBar, timeBars, setTimeBars, setOrder, newRepeatDay, selectTimeBar, toggleModal) {
+    try {
+        const updatedTimeBars = timeBars;
+        const key = selectedTimeBar.key;
+        updatedTimeBars[key].repeatDay = newRepeatDay;
+        setTimeBars(updatedTimeBars);
+        const jsonTimeBars = JSON.stringify(updatedTimeBars);
+        await AsyncStorage.setItem('timeBars', jsonTimeBars); 
+        selectTimeBar(updatedTimeBars[key]);
+        getData(setTimeBars, setOrder);
+        toggleModal(false);
+    } catch (err) {
+        console.log(err);
+    }
+}
