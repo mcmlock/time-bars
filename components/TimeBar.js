@@ -77,7 +77,8 @@ const TimeBar = props => {
             if (progress > 100) {
                 const updatedBarFill = width - 4;
                 setBarFill(updatedBarFill)
-;            } else {
+                    ;
+            } else {
                 const updatedBarFill = width * progress / 100 - 4;
                 setBarFill(updatedBarFill);
             }
@@ -94,38 +95,42 @@ const TimeBar = props => {
     if (data) {
         return (
             <Animated.View style={[styles.row, style]}>
-                <View style={styles.leftSide}>
-                    <TouchableOpacity
-                        style={styles.btn}
-                        onPress={() => {
-                            selectTimeBar(data);
-                            toggleQuickAdd(true);
-                        }}
-                    >
-                        <FontAwesomeIcon icon={faPlus} size={24} />
-                    </TouchableOpacity>
+                <View style={styles.topRow}>
+                    <View style={styles.textView}>
+                        <Text style={styles.text}>{data.title}</Text>
+                    </View>
+                    <View style={styles.leftBtn}>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                selectTimeBar(data);
+                                toggleQuickAdd(true);
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faPlus} size={30} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.rightBtn}>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                selectTimeBar(data);
+                                navigation.navigate('View');
+                            }}>
+                            <FontAwesomeIcon size={30} icon={faChevronRight} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.centerPiece}>
-                    <Text style={styles.text}>{data.title}</Text>
+                <View style={styles.barView}>
                     <View style={styles.progressBar}
                         onLayout={event => {
                             const { width } = event.nativeEvent.layout;
                             setBarWidth(width);
                         }}
                     >
-                        <View style={{ width: barFill, height: 32, backgroundColor: color }}/>
+                        <View style={{ width: barFill, height: 36, backgroundColor: color }} />
                         <Text style={styles.progressText}>{progressStr}</Text>
                     </View>
-                </View>
-                <View style={styles.rightSide}>
-                    <TouchableOpacity
-                        style={styles.btn}
-                        onPress={() => {
-                            selectTimeBar(data);
-                            navigation.navigate('View');
-                        }}>
-                        <FontAwesomeIcon size={24} icon={faChevronRight} />
-                    </TouchableOpacity>
                 </View>
             </Animated.View>
 
@@ -138,67 +143,83 @@ export default TimeBar;
 
 const styles = StyleSheet.create({
     row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
         alignItems: 'center',
         backgroundColor: '#fff',
-        padding: 16,
-        height: 80,
+        paddingHorizontal: 6,
+        paddingVertical: 10,
+        marginTop: 20,
+        height: 106,
         flex: 1,
-        marginTop: 7,
-        marginBottom: 12,
         borderRadius: 4,
         ...Platform.select({
             ios: {
-                width: window.width - 30 * 2,
+                width: window.width - 25 * 2,
                 shadowColor: 'rgba(0,0,0,0.2)',
                 shadowOpacity: 1,
                 shadowOffset: { height: 2, width: 2 },
                 shadowRadius: 2,
             },
             android: {
-                width: window.width - 30 * 2,
+                width: window.width - 25 * 2,
                 elevation: 0,
-                marginHorizontal: 30,
             },
         }),
     },
-    leftSide: {
+    topRow: {
+        width: '100%',
+        marginBottom: 10,
+        paddingHorizontal: 10,
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
-        width: '15%'
+        alignItems: 'center'
     },
-    centerPiece: {
+    textView: {
+        width: '72%',
+        height: 34,
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
+       },
+    text: {
+        fontSize: 28,
+        color: '#222222',
+        letterSpacing: .6,
+    },
+    barView: {
         flex: 1,
-        width: '70%',
-        paddingHorizontal: 10
-    },
-    rightSide: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        width: '15%'
+        width: '100%',
+        paddingHorizontal: 10,
     },
     progressBar: {
-        marginBottom: 10,
-        marginLeft: '2%',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        height: 36.0,
-        width: '96%',
-        borderWidth: 2.0,
-        borderRadius: 4.0,
+        height: 40.0,
+        width: '100%',
+        borderWidth: 2,
+        borderRadius: 4,
     },
     progressText: {
         position: 'absolute',
         alignSelf: 'flex-end',
-        paddingRight: 12.0,
-        fontSize: 16.0,
+        paddingRight: 12,
+        fontSize: 18,
     },
-    text: {
-        fontSize: 24,
-        color: '#222222',
+    leftBtn: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '14%'
+    },
+    rightBtn: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '14%'
     },
     btn: {
         height: 30,

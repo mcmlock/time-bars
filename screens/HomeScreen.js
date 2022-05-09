@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   SafeAreaView,
+  View,
   StyleSheet,
   Platform,
   Dimensions,
@@ -37,6 +38,7 @@ const HomeScreen = ({ navigation, timeBarsProps, selectedTimeBar, selectTimeBar,
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.topSpacer} />
       <SortableList
         data={timeBars}
         renderRow={renderTimeBar}
@@ -70,11 +72,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#eee',
-    ...Platform.select({
-      ios: {
-        paddingTop: 20,
-      },
-    }),
+  },
+  topSpacer: {
+    height: 30,
   },
   list: {
     flex: 1,
@@ -83,10 +83,10 @@ const styles = StyleSheet.create({
     width: window.width,
     ...Platform.select({
       ios: {
-        paddingHorizontal: 30,
+        paddingHorizontal: 25,
       },
       android: {
-        paddingHorizontal: 0,
+        paddingHorizontal: 25,
       },
     }),
   },
