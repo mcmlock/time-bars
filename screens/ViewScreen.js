@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
 import { deleteTimeBar } from '../resources/storageFunctions';
 import { getDayName } from '../resources/dateFunctions';
 import { EditTitleModal } from '../components/modals/EditTitleModal';
 import { EditColorModal } from '../components/modals/EditColorModal';
+import { EditProgressModal } from '../components/modals/EditProgressModal';
+import { EditGoalModal } from '../components/modals/EditGoalModal';
 
 const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setTimeBars, order, setOrder }) => {
 
+    const [barWidth, setBarWidth] = useState(0);
     const [barFill, setBarFill] = useState(0);
     const [editTitleVisible, toggleEditTitle] = useState(false);
     const [editColorVisible, toggleEditColor] = useState(false);
+    const [editProgressVisible, toggleEditProgress] = useState(false);
+    const [editGoalVisible, toggleEditGoal] = useState(false);
 
     const completedTime = Number(selectedTimeBar.completedHours) * 60 + Number(selectedTimeBar.completedMinutes);
     const goalTime = Number(selectedTimeBar.goalHours) * 60 + Number(selectedTimeBar.goalMinutes);
@@ -35,6 +40,10 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
         }
     }
 
+    useEffect(() => {
+        getBarFill(barWidth);
+    }, [editTitleVisible, editColorVisible, editProgressVisible, editGoalVisible])
+
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity
@@ -45,15 +54,23 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
             <TouchableOpacity
                 style={styles.progressBar}
                 onLayout={event => {
-                    const { width } = event.nativeEvent.layout;
-                    getBarFill(width);
+                    setBarWidth(event.nativeEvent.layout.width);
+                    getBarFill(barWidth);
                 }}
                 onPress={() => toggleEditColor(true)}
             >
                 <View style={{ width: barFill, height: 60, backgroundColor: selectedTimeBar.color }} />
             </TouchableOpacity>
-            <Text style={styles.subtitle}>{completedStr}</Text>
-            <Text style={styles.subtitle}>{goalStr}</Text>
+            <TouchableOpacity
+                onPress={() => toggleEditProgress(true)}
+            >
+                <Text style={styles.subtitle}>{completedStr}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => toggleEditGoal(true)}
+            >
+                <Text style={styles.subtitle}>{goalStr}</Text>
+            </TouchableOpacity>
             <Text style={styles.subtitle}>{remainingStr}</Text>
             <Text style={styles.subtitle}>{dueStr}</Text>
             <TouchableOpacity
@@ -94,6 +111,24 @@ const ViewScreen = ({ navigation, selectTimeBar, selectedTimeBar, timeBars, setT
                 setTimeBars={setTimeBars}
                 setOrder={setOrder}
             />
+            <EditProgressModal
+                visible={editProgressVisible}
+                toggleModal={toggleEditProgress}
+                selectedTimeBar={selectedTimeBar}
+                selectTimeBar={selectTimeBar}
+                timeBars={timeBars}
+                setTimeBars={setTimeBars}
+                setOrder={setOrder}
+            />
+            <EditGoalModal
+                visible={editGoalVisible}
+                toggleModal={toggleEditGoal}
+                selectedTimeBar={selectedTimeBar}
+                selectTimeBar={selectTimeBar}
+                timeBars={timeBars}
+                setTimeBars={setTimeBars}
+                setOrder={setOrder}
+            />
         </SafeAreaView >
     )
 }
@@ -122,7 +157,8 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 20,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginVertical: 5
     },
     backBtn: {
         marginTop: 20,

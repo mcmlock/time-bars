@@ -53,8 +53,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 50.0,
-        //   backgroundColor: 'rgba(0, 0, 0, .5)',
-        //     opacity: 0
     },
     contentView: {
         borderWidth: 1,

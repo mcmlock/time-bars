@@ -151,3 +151,39 @@ export async function editColor(selectedTimeBar, timeBars, setTimeBars, setOrder
         console.log(err);
     }
 }
+
+export async function editProgress(selectedTimeBar, timeBars, setTimeBars, setOrder, updatedHours, updatedMinutes, selectTimeBar, toggleModal) {
+    try {
+        const updatedTimeBars = timeBars;
+        const key = selectedTimeBar.key;
+        const totalTime = Number(updatedHours) * 60 + Number(updatedMinutes)
+        updatedTimeBars[key].completedHours = Math.floor(totalTime / 60);
+        updatedTimeBars[key].completedMinutes = totalTime % 60;
+        setTimeBars(updatedTimeBars);
+        const jsonTimeBars = JSON.stringify(updatedTimeBars);
+        await AsyncStorage.setItem('timeBars', jsonTimeBars); 
+        selectTimeBar(updatedTimeBars[key]);
+        getData(setTimeBars, setOrder);
+        toggleModal(false);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export async function editGoal(selectedTimeBar, timeBars, setTimeBars, setOrder, updatedHours, updatedMinutes, selectTimeBar, toggleModal) {
+    try {
+        const updatedTimeBars = timeBars;
+        const key = selectedTimeBar.key;
+        const totalTime = Number(updatedHours) * 60 + Number(updatedMinutes)
+        updatedTimeBars[key].goalHours = Math.floor(totalTime / 60);
+        updatedTimeBars[key].goalMinutes = totalTime % 60;
+        setTimeBars(updatedTimeBars);
+        const jsonTimeBars = JSON.stringify(updatedTimeBars);
+        await AsyncStorage.setItem('timeBars', jsonTimeBars); 
+        selectTimeBar(updatedTimeBars[key]);
+        getData(setTimeBars, setOrder);
+        toggleModal(false);
+    } catch (err) {
+        console.log(err);
+    }
+}
