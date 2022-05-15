@@ -126,7 +126,6 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                                     nextReset: firstReset,
                                     color: barColor
                                 }
-                                console.log(newTimeBar);
                                 if (newTimeBar.goalHours === '') { newTimeBar.goalHours = '0' }
                                 if (newTimeBar.goalMinutes === '') { newTimeBar.goalMinutes = '0' }
                                 createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
