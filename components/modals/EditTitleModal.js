@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Modal, Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import { StyleSheet, Modal, Text, View, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { editTitle } from '../../resources/storageFunctions';
 
 export const EditTitleModal = ({ visible, toggleModal, selectedTimeBar, selectTimeBar, timeBars, setTimeBars, setOrder }) => {
@@ -11,38 +11,40 @@ export const EditTitleModal = ({ visible, toggleModal, selectedTimeBar, selectTi
     }
 
     return (
-        <Modal visible={visible} onPress={Keyboard.dismiss}>
-            <View style={styles.modalView}>
-                <View style={styles.contentView}>
-                    <View style={styles.inputRow}>
-                        <TextInput
-                            placeholder='New Title'
-                            placeholderTextColor="#444"
-                            style={styles.textInput}
-                            value={newTitle}
-                            onChangeText={value => setNewTitle(value)}
-                        />
+        <Modal visible={visible}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.modalView}>
+                    <View style={styles.contentView}>
+                        <View style={styles.inputRow}>
+                            <TextInput
+                                placeholder='New Title'
+                                placeholderTextColor="#444"
+                                style={styles.textInput}
+                                value={newTitle}
+                                onChangeText={value => setNewTitle(value)}
+                            />
+                        </View>
+                        <TouchableOpacity
+                            style={{ marginHorizontal: 50.0, justifyContent: 'center', alignItems: 'center', marginBottom: 30, width: 50, height: 50 }}
+                            onPress={() => {
+                                if (newTitle !== '') {
+                                    editTitle(selectedTimeBar, timeBars, setTimeBars, setOrder, newTitle, selectTimeBar, toggleModal);
+                                }
+                            }}
+                        >
+                            <Text style={{ fontSize: 20.0, alignSelf: 'center' }}>Save</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                resetModal();
+                                toggleModal(false);
+                            }}
+                        >
+                            <Text style={{ fontSize: 20.0, alignSelf: 'center' }}>Back</Text>
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity
-                        style={{ marginHorizontal: 50.0, justifyContent: 'center', alignItems: 'center', marginBottom: 30, width: 50, height: 50 }}
-                        onPress={() => {
-                            if (newTitle !== '') {
-                                editTitle(selectedTimeBar, timeBars, setTimeBars, setOrder, newTitle, selectTimeBar, toggleModal);
-                            }
-                        }}
-                    >
-                        <Text style={{ fontSize: 20.0, alignSelf: 'center' }}>Save</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => {
-                            resetModal();
-                            toggleModal(false);
-                        }}
-                    >
-                        <Text style={{ fontSize: 20.0, alignSelf: 'center' }}>Back</Text>
-                    </TouchableOpacity>
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 }

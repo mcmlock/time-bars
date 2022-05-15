@@ -15,7 +15,8 @@ export const QuickAddModal = ({ visible, toggleQuickAdd, selectedTimeBar, timeBa
     }
 
     return (
-        <Modal visible={visible} onPress={Keyboard.dismiss}>
+        <Modal visible={visible}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.modalView}>
                 <View style={styles.contentView}>
                     <View style={styles.inputRow}>
@@ -35,6 +36,14 @@ export const QuickAddModal = ({ visible, toggleQuickAdd, selectedTimeBar, timeBa
                             style={styles.textInput}
                             maxLength={2}
                             onChangeText={value => setMinuteInput(value)}
+                            onEndEditing={() => {
+                                if (Number(minuteInput) < 10) {
+                                    setMinuteInput(`0${minuteInput}`);
+                                }
+                                if (minuteInput === '') {
+                                    setMinuteInput('00');
+                                }
+                            }}
                         />
                     </View>
                     <TouchableOpacity
@@ -60,6 +69,7 @@ export const QuickAddModal = ({ visible, toggleQuickAdd, selectedTimeBar, timeBa
                     </TouchableOpacity>
                 </View>
             </View>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 }

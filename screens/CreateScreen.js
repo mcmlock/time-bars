@@ -58,7 +58,7 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                     onChangeText={input => setTitle(input)}
                 />
                 <View>
-                    <Text style={styles.text}>Weekly Goal</Text>
+                    <Text style={styles.text}>Weekly Goal of</Text>
                     <View style={styles.timeSetter}>
                         <TextInput
                             style={styles.timeTextInput}
@@ -76,11 +76,19 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                             keyboardType='number-pad'
                             maxLength={2}
                             onChangeText={input => setGoalMinutes(input)}
+                            onEndEditing={() => {
+                                if (Number(goalMinutes) < 10) {
+                                    setGoalMinutes(`0${goalMinutes}`);
+                                }
+                                if (goalMinutes === '') {
+                                    setGoalMinutes('00');
+                                }
+                            }}
                         />
                     </View>
                 </View>
                 <View>
-                    <Text style={styles.text}>on</Text>
+                    <Text style={styles.text}>by</Text>
                     <DayPicker repeatDay={repeatDay} setRepeatDay={setRepeatDay} />
                 </View>
                 <View style={styles.colorSelect}>
@@ -128,6 +136,12 @@ const CreateScreen = ({ timeBars, setTimeBars, order, setOrder, navigation }) =>
                                 }
                                 if (newTimeBar.goalHours === '') { newTimeBar.goalHours = '0' }
                                 if (newTimeBar.goalMinutes === '') { newTimeBar.goalMinutes = '0' }
+                                if (newTimeBar.goalMinutes.length > 1 && newTimeBar.goalMinutes.substring(0,1) === 0) {
+                                    newTimeBar.goalMinutes = newTimeBar.goalMinutes.substring(1, 2);
+                                } 
+                                if (newTimeBar.goalHours.length > 1 && newTimeBar.goalHours.substring(0,1) === 0) {
+                                    newTimeBar.goalHours = newTimeBar.goalHours.substring(1, 2);
+                                } 
                                 createTimeBar(timeBars, setTimeBars, newTimeBar, order, setOrder);
                                 getData(setTimeBars, setOrder);
                                 navigation.navigate('Home');

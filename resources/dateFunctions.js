@@ -103,7 +103,7 @@ export const calcFirstReset = repeatDay => {
     const todayNum = currentDate.getDay() + 1;
     if (todayNum === repeatDay) {
         return 1 + currentDateValue;
-    } else if (todayValue < repeatDay) {
+    } else if (todayNum < repeatDay) {
         // Adding one to the sum, because we want to account for the fact the reset should happen at midnight the next day
         return (repeatDay - todayNum + 1) + currentDateValue;
     } else {
